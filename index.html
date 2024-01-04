@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch a Sketch</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <h1 class="title">Etch a Sketch</h1>    
+    <div id= "container" class="main-container">
+    </div>
+    <div class="controls">
+        <label for="colorpicker"><input type="color" id="colorpicker" name="colorpicker" value="#000000"></label>
+        <button class="rainbow" id="rainbow" type="button">Rainbow Mode</button>
+        <button class="eraser" id="eraser" type="button">Eraser</button>
+        <button>Clear</button>
+        <label for="squares"><div id="range-text">16 x 16</div><input type="range" name="squares" id="squares" min="16" 
+            max="64" step="1" value="16">
+        </label>
+    </div>
+    <footer><div>© The Odin Proyect 2024</div></footer>
+    <script src="code.js"></script>
+</body>
+</html>
+
