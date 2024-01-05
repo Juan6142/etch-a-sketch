@@ -1,27 +1,68 @@
 const mainContainer = document.querySelector("#container");
-let mouseDown = false;
 
+// mouse down variable filter active
+let mouseDown = false;
 document.body.addEventListener("mousedown", () => {
     mouseDown = true;
 });
-
 document.body.addEventListener("mouseup", () => {
     mouseDown = false;
 });
-// changerane
-function createDivs() {
-    for (let x = 0; x < 256; x++) {
-        const div = document.createElement("div");
-        div.classList.add("grid");
-        div.addEventListener("mouseover", paintDiv);
-        div.addEventListener("mousedown", paintDiv);
-        mainContainer.appendChild(div);
+
+
+// change input range
+let rangeValue = document.querySelector("#squares")
+const rangeText = document.querySelector("#range-text")
+function changeRange() {
+    let rangeVal = rangeValue.value
+    rangeText.textContent = rangeVal + " x " + rangeVal    
+    console.log("current area: ", rangeVal)
+
+    return rangeVal * rangeVal
+}
+
+// clear grid on less range
+function clearGrid() {
+    // Eliminar todos los elementos hijos de mainContainer
+    while (mainContainer.firstChild) {
+        mainContainer.removeChild(mainContainer.firstChild);
     }
 }
 
+const CONTAINER_SIZE = 512;
+
+function addGridEventListeners(div) {
+    div.addEventListener("mouseover", paintDiv);
+    div.addEventListener("mousedown", paintDiv);
+}
+
+//create squares
+function createDivs() {
+    let area = changeRange();
+
+
+    const squareSize = CONTAINER_SIZE / Math.sqrt(area);
+    for (let x = 0; x < area ; x++) {
+        
+        const div = document.createElement("div");
+        div.classList.add("grid");
+        div.style.width = squareSize + "px";
+        div.style.height = squareSize + "px";
+        addGridEventListeners(div)
+        
+        mainContainer.appendChild(div);   
+    }
+}
+rangeValue.addEventListener("input", () => {
+    clearGrid();
+    createDivs();
+});
+
+//paintdiv + mouse filters detectors
+let finalColor = ""
 function paintDiv(e) {
-    e.preventDefault(); // Evita el comportamiento predeterminado del navegado
-    let finalColor = ""
+    e.preventDefault(); // Evita el comportamiento predeterminado del navegador
+    
     if (eraser == 1) {
         finalColor = "#FFFFFF"
     } else if (rainbow == 1) {
@@ -43,7 +84,6 @@ function paintDiv(e) {
 
 const colorPicker = document.querySelector("#colorpicker")
 colorPicker.addEventListener("input", colorPicker)
-
 function color() {
     const currentColor = colorPicker.value;
     console.log("Current color: " + currentColor)
@@ -87,21 +127,19 @@ function rainbowMode() {
     return rgb
 }
 
-//range
-const rangeValue = document.querySelector("#squares")
-const rangeText = document.querySelector("#range-text")
-// mover el input tambien es un evento
-// la funcion devuelve el valor actual
-function changeRange() {
-    let rangeVal = rangeValue.value
-    rangeText.textContent = rangeVal + " x " + rangeVal 
-    console.log(rangeVal)
-    return rangeVal
+//clear
+
+const clearButton = document.querySelector("#clear")
+clearButton.addEventListener("click", reset)
+
+function reset() {
+    rangeValue.value = 16
+    clearGrid()
+    createDivs()
+    btnEraser.classList.remove("eraser-active")
+    eraser = 0
+    btnRainbow.classList.remove("rainbow-active")
+    rainbow = 0
 }
 
-rangeValue.addEventListener("input", changeRange)
-//usar un fauncion fantasama el el bucle de arriba para hacer todo ahi, declerar 
-// y usar los valores para hacer el calculo de la nueva cuadricula ej size * 2
-
-createDivs();
-
+createDivs()

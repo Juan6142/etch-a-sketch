@@ -35,8 +35,8 @@ body, html {
     background-color: black;
 }
 
-.eraser {
-    background-color: white;
+#clear:hover {
+   background-color: rgb(197, 175, 175);
 }
 
 .controls {
